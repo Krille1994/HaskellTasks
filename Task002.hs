@@ -30,4 +30,13 @@ Tasks:
  3. Make it optionally work without spaces
 --}
 
--- ideal!!!  cryptoSqr :: String -> Bool -> String
+import Data.List
+
+cryptoPad :: String -> String
+cryptoPad xs = xs ++ replicate ((ceiling (sqrt (fromIntegral (length xs))) ^ 2) - length xs) '_'
+
+--createMatrix :: String -> [String]
+--createMatrix [] = []
+--createMatrix xs = [a | a <- take (sqrt (length xs)) xs]
+
+--cryptoSqr :: String -> String
