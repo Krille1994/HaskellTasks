@@ -1,16 +1,23 @@
 import Data.List
+import Data.Char
 
 ordAndGroupList :: String -> [String]
 --ordAndGroupList [] = []
 ordAndGroupList = group . sort
+--ordAndGroupList = group . sort
 
-createPrintLine :: String -> String
-createPrintLine [] = []
-createPrintLine a = head a : " : " ++ replicate (length a) '#' ++ "\n"
+freq xs = [ (head x, length x) | x <- group $ sort $ filter isLetter $ map toUpper xs]
 
-printFreq :: String -> String
+-- createPrintLine :: String -> String
+-- createPrintLine [] = []
+createPrintLine (c,n) = c : ':' : replicate n '#'
+
+printFreqM = mapM_ (putStrLn . createPrintLine) . freq
+
+--printFreq :: String -> [String]
 --printFreq [] = []
-printFreq = concatMap createPrintLine . ordAndGroupList
+--printFreq xs = map createPrintLine $ ordAndGroupList xs
+--printFreq = concatMap createPrintLine . ordAndGroupList
 
 -- map :: (a -> b) -> [a] -> [b]
 -- map _ [] = []          This is why line 12 is unnessessary
