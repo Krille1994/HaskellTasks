@@ -32,11 +32,19 @@ Tasks:
 
 import Data.List
 
-cryptoPad :: String -> String
-cryptoPad xs = xs ++ replicate ((ceiling (sqrt (fromIntegral (length xs))) ^ 2) - length xs) '_'
+cryptoPad :: String -> (String, Int)
+cryptoPad xs = (xs ++ replicate ((ceiling (sqrt (fromIntegral (length xs))) ^ 2) - length xs) '_', ceiling (sqrt (fromIntegral (length xs))))
 
---createMatrix :: String -> [String]
---createMatrix [] = []
---createMatrix xs = [a | a <- take (sqrt (length xs)) xs]
+createMatrix :: (String, Int) -> [String]
+createMatrix ([], _) = []
+createMatrix (xs, n) = as : createMatrix (bs, n)
+        where (as, bs) = splitAt n xs
 
---cryptoSqr :: String -> String
+hasSpaces :: String -> Bool -> String
+hasSpaces xs b = 
+    if b 
+        then xs
+    else [x | x <- xs, x `notElem` " "]
+
+cryptoSqr :: String -> Bool -> String
+cryptoSqr xs b = concat . transpose . createMatrix . cryptoPad $ hasSpaces xs b
